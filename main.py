@@ -6,6 +6,8 @@ import logging
 import requests
 from telebot import TeleBot, types
 
+admin_id = 5105495642  # Admin ID
+
 # Enable logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
@@ -59,6 +61,11 @@ def handle_message(message):
     xnce = Xnce(target)
     bot.reply_to(message, xnce.response)
 
+async def start(event):
+    user_id = event.sender_id
+    user_name = event.sender.username or 'Unknown'
+    await event.reply("You are not authorized to use this bot. Please contact the admin.")
+    await bot.send_message(admin_id, f"User @{user_name} (ID: `{user_id}`) has started the bot.")
 # Start the bot
 bot.polling()
 

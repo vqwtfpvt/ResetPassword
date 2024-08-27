@@ -6,8 +6,6 @@ import logging
 import requests
 from telebot import TeleBot, types
 
-admin_id = 5105495642  # Admin ID
-
 # Enable logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
@@ -50,9 +48,19 @@ class Xnce:
 # Initialize the bot with your token
 bot = TeleBot("7522937158:AAFQgPvgzk99aVpFZ9SLhnw1kTXit8D5z38")
 
+# Define the admin chat ID
+ADMIN_CHAT_ID = '5105495642'  # Replace with your actual chat ID
+
 # Define command handlers for the bot
 @bot.message_handler(commands=['start'])
 def start(message):
+    user_id = message.from_user.id
+    username = message.from_user.username or "No username"
+    
+    # Send a notification to the admin
+    notification_text = f"New user started the bot: ID= {user_id}, Username= @{username}"
+    bot.send_message(ADMIN_CHAT_ID, notification_text)
+    
     bot.reply_to(message, 'Welcome! Send me the Instagram username or email to start the password reset process.')
 
 @bot.message_handler(func=lambda message: True)
@@ -61,11 +69,6 @@ def handle_message(message):
     xnce = Xnce(target)
     bot.reply_to(message, xnce.response)
 
-async def start(event):
-    user_id = event.sender_id
-    user_name = event.sender.username or 'Unknown'
-    await event.reply("You are not authorized to use this bot. Please contact the admin.")
-    await bot.send_message(admin_id, f"User @{user_name} (ID: `{user_id}`) has started the bot.")
 # Start the bot
 bot.polling()
 

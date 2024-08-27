@@ -46,7 +46,7 @@ class Xnce:
             return f"Failed: {req.text}"
 
 # Initialize the bot with your token
-bot = TeleBot("6364138523:AAEr27daUr2azrnQkUSeMIJaG0B9D58kaNU")
+bot = TeleBot("7522937158:AAFQgPvgzk99aVpFZ9SLhnw1kTXit8D5z38")
 
 # Define command handlers for the bot
 @bot.message_handler(commands=['start'])
